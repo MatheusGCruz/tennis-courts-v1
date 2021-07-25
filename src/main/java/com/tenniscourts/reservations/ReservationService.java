@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import javax.validation.constraints.NotNull;
+
 @Service
 @AllArgsConstructor
 public class ReservationService {
@@ -17,7 +19,13 @@ public class ReservationService {
     private final ReservationMapper reservationMapper;
 
     public ReservationDTO bookReservation(CreateReservationRequestDTO createReservationRequestDTO) {
-        throw new UnsupportedOperationException();
+        Reservation reservation = new Reservation();
+
+        reservation.setGuestId(createReservationRequestDTO.getGuestId());
+        reservation.setScheduleId(createReservationRequestDTO.getScheduleId());
+        reservation.setValue(Bigdecimal(10));
+        reservation.setRefundValue(Bigdecimal(10));
+        return reservationRepository.save(reservation);
     }
 
     public ReservationDTO findReservation(Long reservationId) {
@@ -63,9 +71,25 @@ public class ReservationService {
 
     public BigDecimal getRefundValue(Reservation reservation) {
         long hours = ChronoUnit.HOURS.between(LocalDateTime.now(), reservation.getSchedule().getStartDateTime());
+        long minutes = ChronoUnit.MINUTES.between(LocalDateTime.now(), reservation.getSchedule().getStartDateTime());
 
         if (hours >= 24) {
             return reservation.getValue();
+        }
+        else if (hours >= 12) {
+            // Refund 75% of the value
+            BigDecimal actualRefund = reservation.getValue().multiply(.75);
+            return actualRefund;
+        }
+        else if (hours >= 2) {
+            // Refund 50% of the value
+            BigDecimal actualRefund = reservation.getValue().multiply(.50);
+            return actualRefund;
+        }
+        else if(minutes >= 1){
+            // Refund 25% of the value
+            BigDecimal actualRefund = reservation.getValue().multiply(.25);
+            return actualRefund;
         }
 
         return BigDecimal.ZERO;
