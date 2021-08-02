@@ -14,11 +14,11 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ReservationService {
 
-    private final ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
 
-    private final ReservationMapper reservationMapper;
+    private ReservationMapper reservationMapper;
 
-    public ReservationDTO bookReservation(CreateReservationRequestDTO createReservationRequestDTO) {
+    public Reservation bookReservation(CreateReservationRequestDTO createReservationRequestDTO) {
         Reservation reservation = new Reservation();
 
         reservation.setGuestId(createReservationRequestDTO.getGuestId());
@@ -100,7 +100,7 @@ public class ReservationService {
     public ReservationDTO rescheduleReservation(Long previousReservationId, Long scheduleId) {
         Reservation previousReservation = cancel(previousReservationId);
 
-        if (scheduleId.equals(previousReservation.getSchedule().getId())) {
+        if (scheduleId.equals(previousReservation.getScheduleId())) {
             throw new IllegalArgumentException("Cannot reschedule to the same slot.");
         }
 

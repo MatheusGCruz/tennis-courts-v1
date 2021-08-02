@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class TennisCourtService {
 
-    private final TennisCourtRepository tennisCourtRepository;
+    private TennisCourtRepository tennisCourtRepository;
 
-    private final ScheduleService scheduleService;
+    private ScheduleService scheduleService;
 
-    private final TennisCourtMapper tennisCourtMapper;
+    private TennisCourtMapper tennisCourtMapper;
 
     public TennisCourtDTO addTennisCourt(TennisCourtDTO tennisCourt) {
         return tennisCourtMapper.map(tennisCourtRepository.saveAndFlush(tennisCourtMapper.map(tennisCourt)));

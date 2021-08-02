@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @AllArgsConstructor
 public class TennisCourtController extends BaseRestController {
 
-    private final TennisCourtService tennisCourtService;
+    private TennisCourtService tennisCourtService;
 
     //TODO: implement rest and swagger
     @PostMapping("/addTennisCourt")

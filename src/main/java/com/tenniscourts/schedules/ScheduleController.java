@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ScheduleController extends BaseRestController {
 
-    private final ScheduleService scheduleService;
+    private ScheduleService scheduleService;
 
     //TODO: implement rest and swagger
     @PostMapping("/addScheduleTennisCourt")
